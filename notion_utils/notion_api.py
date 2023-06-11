@@ -25,7 +25,6 @@ def parse_db_object(db_obj: dict):
     return {"self_relation_properties": self_relation_properties, "id": db_id}
 
 
-@lru_cache()
 def list_databases(token) -> dict:
     objs = requests.post(
         "https://api.notion.com/v1/search",
@@ -59,7 +58,6 @@ class NotionAPI:
             print(f"Database not found. List of available databases {databases}")
         self.api_url = API_URL.format(database_id=database_id)
 
-    @lru_cache()
     def retrieve_data(self) -> dict:
         """Retrieve data from Notion API."""
         resp = requests.post(self.api_url, headers=self.headers).json()

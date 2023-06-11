@@ -14,7 +14,6 @@ st.title("Notion Notes Graph Drawer")
 token = st.text_input("Enter your Notion token:", type="password")
 
 
-@st.cache
 def list_databases_with_relations(token):
     databases = list_databases(token)
     databases_with_relations = {}
@@ -24,7 +23,6 @@ def list_databases_with_relations(token):
     return databases_with_relations
 
 
-@st.cache
 def get_notion_data(token, database_name):
     return NotionAPI(token, database_name)
 
@@ -33,6 +31,8 @@ if token:
     try:
         databases = list_databases_with_relations(token)
         database_name = st.selectbox("Select a Notion database:", databases)
+        if not databases:
+             st.error(f"No databases with relations found.")
     except Exception as e:
         st.error(f"An error occurred: {e}")
     # cutoff = st.slider(
