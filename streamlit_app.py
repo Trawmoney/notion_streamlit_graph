@@ -4,7 +4,7 @@ from notion_utils.network_graph import NetworkGraphCorrelation, NetworkGraphRela
 import streamlit.components.v1 as components
 import os
 
-AVAILABLE_GRAPHS = [NetworkGraphRelation, NetworkGraphCorrelation]
+AVAILABLE_GRAPHS = [NetworkGraphRelation]
 GRAPHS_DICT = {gr.name: gr for gr in AVAILABLE_GRAPHS}
 
 # Title of the app
@@ -35,9 +35,9 @@ if token:
         database_name = st.selectbox("Select a Notion database:", databases)
     except Exception as e:
         st.error(f"An error occurred: {e}")
-    cutoff = st.slider(
-        "Select correlation cutoff:", min_value=0.0, max_value=1.0, value=0.5, step=0.1
-    )
+    # cutoff = st.slider(
+    #     "Select correlation cutoff:", min_value=0.0, max_value=1.0, value=0.5, step=0.1
+    # )
     overlap = st.number_input(
         "Enter overlap for force atlas 2 based:", value=-1000, step=100
     )
@@ -58,7 +58,7 @@ if token:
                 # Build and display graph
                 GraphBuilder = GRAPHS_DICT[graph_kind]
                 network_graph = GraphBuilder(data, id_to_title)
-                graph = network_graph.build_graph(cutoff=cutoff)
+                graph = network_graph.build_graph()
                 network_graph.save_graph_in_html(graph, "tmp.html", overlap=overlap)
                 HtmlFile = open("tmp.html", "r", encoding="utf-8")
                 source_code = HtmlFile.read()
