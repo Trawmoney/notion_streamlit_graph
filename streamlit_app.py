@@ -9,10 +9,19 @@ GRAPHS_DICT = {gr.name: gr for gr in AVAILABLE_GRAPHS}
 
 # Title of the app
 st.title("Notion Notes Graph Drawer")
+st.markdown("""
+By default the app will use the token from the Zettelkasten template in this video https://youtu.be/XJlC4a-krig 
 
+To use your own token just follow the instructions in the video to get your token and paste it in the input box below.
+This will list all your databases with relations and you can select the one you want to draw.
+
+Happy graphing fellow notioners!
+""")
+DEFAULT_TOKEN = "secret_qz05CfLC5IPUa3OwyCHaIV8Hwif7L00zJcX6sAwC2y5"
 # Input fields for various parameters
-token = st.text_input("Enter your Notion token:", type="password")
-
+token = st.text_input("Enter your Notion token (Press enter once you entered your Token and this will load your notion notes)", value="")
+if not token:
+    token = DEFAULT_TOKEN
 
 def list_databases_with_relations(token):
     databases = list_databases(token)
